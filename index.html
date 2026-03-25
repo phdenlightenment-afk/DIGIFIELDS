@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DigiFields Marketing Group — Digital Systems That Drive Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #03050a;
+    --bg2: #060c14;
+    --cyan: #38bdf8;
+    --cyan-dim: rgba(56,189,248,0.12);
+    --cyan-glow: rgba(56,189,248,0.25);
+    --blue: #3b82f6;
+    --text: #e8edf5;
+    --muted: #7a8fa8;
+    --border: rgba(56,189,248,0.1);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.032;
+    pointer-events: none;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 72px;
+    background: rgba(3,5,10,0);
+    transition: background 0.4s ease, border-bottom 0.4s ease;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.1s forwards;
+  }
+  nav.scrolled {
+    background: rgba(3,5,10,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo img {
+    height: 38px; width: auto;
+    object-fit: contain;
+  }
+  .logo-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    background: linear-gradient(90deg, #38bdf8, #818cf8, #f472b6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 2.4rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    position: relative;
+    transition: color 0.25s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -3px; left: 0; right: 100%;
+    height: 1px;
+    background: var(--cyan);
+    transition: right 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { right: 0; }
+
+  .nav-cta {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    color: var(--cyan) !important;
+    border: 1px solid rgba(56,189,248,0.3) !important;
+    padding: 6px 18px;
+    border-radius: 4px;
+    transition: background 0.25s, box-shadow 0.25s !important;
+  }
+  .nav-cta:hover {
+    background: rgba(56,189,248,0.08) !important;
+    box-shadow: 0 0 16px rgba(56,189,248,0.2) !important;
+    color: var(--cyan) !important;
+  }
+  .nav-cta::after { display: none !important; }
+
+  /* ─── HAMBURGER ─── */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 1.5px;
+    background: var(--muted); border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 5vw;
+    overflow: hidden;
+  }
+
+  /* Radial glow left */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 30%; left: -10%;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(ellipse at center, rgba(56,189,248,0.055) 0%, transparent 68%);
+    pointer-events: none;
+  }
+
+  /* ─── HERO LEFT ─── */
+  .hero-left {
+    position: relative; z-index: 2;
+    padding: 100px 0;
+    max-width: 600px;
+  }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: slideUp 0.7s ease 0.3s forwards;
+  }
+  .eyebrow::before {
+    content: '';
+    display: block; width: 28px; height: 1px;
+    background: var(--cyan);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4.2vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #f0f4ff;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: slideUp 0.75s ease 0.45s forwards;
+  }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(120deg, #38bdf8 0%, #818cf8 60%, #f472b6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.8rem;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 0.7s forwards;
+  }
+
+  .hero-btns {
+    display: flex; align-items: center; gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 0.95s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 13px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    box-shadow: 0 0 24px rgba(56,189,248,0.28), 0 4px 16px rgba(14,165,233,0.22);
+    transition: transform 0.22s, box-shadow 0.22s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+    opacity: 0; transition: opacity 0.22s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 36px rgba(56,189,248,0.42), 0 6px 24px rgba(14,165,233,0.32);
+  }
+  .btn-primary:hover::before { opacity: 1; }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding: 12px 26px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid rgba(120,140,168,0.2);
+    cursor: pointer; background: none;
+    transition: color 0.22s, border-color 0.22s, box-shadow 0.22s, transform 0.22s;
+  }
+  .btn-secondary:hover {
+    color: var(--text);
+    border-color: rgba(56,189,248,0.3);
+    box-shadow: 0 0 20px rgba(56,189,248,0.08);
+    transform: translateY(-2px);
+  }
+  .btn-arrow { transition: transform 0.22s; }
+  .btn-secondary:hover .btn-arrow { transform: translateX(4px); }
+
+  /* ─── STATS ROW ─── */
+  .hero-stats {
+    display: flex; gap: 2.5rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(120,140,168,0.1);
+    opacity: 0;
+    animation: fadeIn 0.9s ease 1.2s forwards;
+  }
+  .stat {}
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .stat-num span {
+    background: linear-gradient(90deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── GLOBE CANVAS ─── */
+  .hero-right {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+    height: 100vh;
+    opacity: 0;
+    animation: fadeIn 1.4s ease 0.6s forwards;
+  }
+  #globe-canvas {
+    width: 100%; height: 100%;
+    position: absolute; inset: 0;
+  }
+
+  /* ─── SERVICES STRIP ─── */
+  .services-strip {
+    position: relative; z-index: 2;
+    padding: 100px 5vw;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 3rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--cyan);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .service-card {
+    padding: 2.5rem;
+    background: rgba(6,12,20,0.6);
+    position: relative;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .service-card:hover { background: rgba(56,189,248,0.03); }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cyan-dim);
+    border-radius: 8px;
+    margin-bottom: 1.4rem;
+    font-size: 1.1rem;
+  }
+  .service-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.01em;
+  }
+  .service-desc {
+    font-size: 0.83rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* ─── PROCESS ─── */
+  .process {
+    position: relative; z-index: 2;
+    padding: 100px 5vw;
+  }
+
+  .process-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 4rem;
+    gap: 2rem;
+  }
+  .process-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    max-width: 420px;
+  }
+  .process-sub {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 360px;
+    text-align: right;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 22px; left: calc(12.5% + 20px); right: calc(12.5% + 20px);
+    height: 1px;
+    background: linear-gradient(90deg, var(--cyan-dim), rgba(56,189,248,0.2), var(--cyan-dim));
+  }
+
+  .step { padding: 0 1.5rem; }
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .step:hover .step-num {
+    background: var(--cyan-dim);
+    box-shadow: 0 0 20px rgba(56,189,248,0.2);
+  }
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+  .step-desc { font-size: 0.8rem; line-height: 1.7; color: var(--muted); }
+
+  /* ─── CTA BAND ─── */
+  .cta-band {
+    position: relative; z-index: 2;
+    margin: 40px 5vw 80px;
+    border-radius: 14px;
+    padding: 70px 5%;
+    background: linear-gradient(135deg, rgba(14,165,233,0.06) 0%, rgba(59,130,246,0.04) 50%, rgba(244,114,182,0.04) 100%);
+    border: 1px solid var(--border);
+    text-align: center;
+    overflow: hidden;
+  }
+  .cta-band::before {
+    content: '';
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(56,189,248,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-band h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.2vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    max-width: 640px;
+    margin-left: auto; margin-right: auto;
+  }
+  .cta-band p {
+    font-size: 0.95rem; color: var(--muted); margin-bottom: 2.4rem;
+  }
+  .cta-note {
+    display: block;
+    font-size: 0.72rem;
+    color: rgba(120,140,168,0.5);
+    margin-top: 1rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative; z-index: 2;
+    border-top: 1px solid var(--border);
+    padding: 36px 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  footer p {
+    font-size: 0.75rem; color: rgba(120,140,168,0.45); letter-spacing: 0.04em;
+  }
+  .footer-links {
+    display: flex; gap: 1.8rem; list-style: none;
+  }
+  .footer-links a {
+    font-size: 0.75rem; color: rgba(120,140,168,0.45);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--cyan); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding-top: 80px;
+      min-height: auto;
+    }
+    .hero-left { padding: 60px 0 20px; max-width: 100%; }
+    .hero-right {
+      height: 280px;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.8s forwards;
+    }
+    .services-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .steps::before { display: none; }
+    .process-header { flex-direction: column; }
+    .process-sub { text-align: left; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero-stats { gap: 1.5rem; }
+  }
+  @media (max-width: 500px) {
+    .steps { grid-template-columns: 1fr; }
+    h1 { font-size: 2.1rem; }
+    .hero-btns { flex-direction: column; align-items: flex-start; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .hero-stats { flex-wrap: wrap; gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <img src="/mnt/user-data/uploads/Digi_Fields_FINAL.jpeg" alt="DigiFields logo" onerror="this.style.display='none'" />
+    <span class="logo-text">DigiFields</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Call</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ════ HERO ════ -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="eyebrow">Digital Marketing Group</div>
+
+    <h1>We Build Digital Systems That Drive <em>Growth</em></h1>
+
+    <p class="hero-sub">
+      High-converting websites, funnels, and marketing systems designed to scale your business — built with precision, backed by data.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">
+        Book a Call
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#work" class="btn-secondary">
+        View Work
+        <svg class="btn-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num"><span>150+</span></div>
+        <div class="stat-label">Brands Scaled</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>$42M</span></div>
+        <div class="stat-label">Revenue Generated</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>98%</span></div>
+        <div class="stat-label">Client Retention</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right" id="hero-right">
+    <canvas id="globe-canvas"></canvas>
+  </div>
+</section>
+
+<!-- ════ SERVICES ════ -->
+<section class="services-strip" id="services">
+  <div class="section-label">What We Do</div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <div class="service-title">Web Design & Dev</div>
+      <p class="service-desc">Pixel-perfect, high-performance websites that convert visitors into customers — built for speed and clarity.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎯</div>
+      <div class="service-title">Paid Media & Ads</div>
+      <p class="service-desc">Data-driven ad campaigns across Google and Meta, optimised for ROAS and scalable growth.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔄</div>
+      <div class="service-title">Funnel Strategy</div>
+      <p class="service-desc">End-to-end sales funnels engineered around your buyer's journey — from awareness to closed deal.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">✉️</div>
+      <div class="service-title">Email & Automation</div>
+      <p class="service-desc">Lifecycle email systems that nurture leads, recover lost sales, and build long-term loyalty on autopilot.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📈</div>
+      <div class="service-title">SEO & Content</div>
+      <p class="service-desc">Organic growth strategies that compound over time — targeting high-intent keywords that drive revenue.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🧠</div>
+      <div class="service-title">Brand & Strategy</div>
+      <p class="service-desc">Positioning, messaging, and identity work that makes your brand the obvious choice in a crowded market.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PROCESS ════ -->
+<section class="process" id="process">
+  <div class="section-label">How It Works</div>
+  <div class="process-header">
+    <h2 class="process-title">A Proven System for Scalable Results</h2>
+    <p class="process-sub">Every engagement follows the same rigorous framework — built to remove guesswork and deliver outcomes.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Discovery Call</div>
+      <p class="step-desc">We map your current state, goals, and the gaps preventing growth.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Strategy Blueprint</div>
+      <p class="step-desc">A custom growth roadmap — channels, messaging, and conversion architecture.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Build & Launch</div>
+      <p class="step-desc">We execute with precision: design, copy, tech, and media buying.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Scale & Optimise</div>
+      <p class="step-desc">Continuous iteration guided by data until the system compounds on its own.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA BAND ════ -->
+<section class="cta-band" id="contact">
+  <h2>Ready to Scale Your Business?</h2>
+  <p>Book a free 30-minute strategy call — no pressure, just clarity.</p>
+  <a href="mailto:hello@digifields.com" class="btn-primary" style="display:inline-flex;">
+    Book a Free Call
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <span class="cta-note">No commitment required · Response within 24 hours</span>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <p>© 2025 DigiFields Marketing Group. All rights reserved.</p>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">LinkedIn</a></li>
+  </ul>
+</footer>
+
+<script>
+/* ─── SCROLL NAV ─── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ─── GLOBE ─── */
+(function initGlobe() {
+  const canvas = document.getElementById('globe-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, R, cx, cy, t = 0, raf;
+
+  const NODES = [];
+  const LINES = [];
+  const PARTICLES = [];
+
+  function resize() {
+    const container = document.getElementById('hero-right');
+    W = canvas.width = container.offsetWidth;
+    H = canvas.height = container.offsetHeight;
+    cx = W / 2;
+    cy = H / 2;
+    R = Math.min(W, H) * 0.36;
+    buildGlobe();
+  }
+
+  function sphToXY(lat, lon, rotY, scale) {
+    const rlat = lat * Math.PI / 180;
+    const rlon = (lon + rotY) * Math.PI / 180;
+    const x = R * Math.cos(rlat) * Math.sin(rlon);
+    const y = R * Math.sin(rlat);
+    const z = R * Math.cos(rlat) * Math.cos(rlon);
+    const perspective = 1200 / (1200 - z * 0.4);
+    return {
+      sx: cx + x * perspective * scale,
+      sy: cy - y * perspective * scale,
+      z: z,
+      visible: z > -R * 0.1
+    };
+  }
+
+  function buildGlobe() {
+    NODES.length = 0;
+    LINES.length = 0;
+    PARTICLES.length = 0;
+
+    /* latitude/longitude grid nodes */
+    const pts = [];
+    for (let lat = -75; lat <= 75; lat += 25) {
+      for (let lon = -180; lon < 180; lon += 30) {
+        pts.push({ lat, lon, pulse: Math.random() * Math.PI * 2 });
+      }
+    }
+    NODES.push(...pts);
+
+    /* arcs connecting nearby nodes */
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        const dlat = Math.abs(pts[i].lat - pts[j].lat);
+        const dlon = Math.abs(pts[i].lon - pts[j].lon);
+        if ((dlat <= 25 && dlon <= 30) && Math.random() > 0.45) {
+          LINES.push([i, j]);
+        }
+      }
+    }
+
+    /* floating particles */
+    for (let k = 0; k < 28; k++) {
+      PARTICLES.push({
+        lat: (Math.random() - 0.5) * 160,
+        lon: (Math.random()) * 360 - 180,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.3 + Math.random() * 0.4,
+        size: 0.8 + Math.random() * 1.0
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.0025;
+    const rotY = t * (180 / Math.PI); // slow degrees rotation
+
+    /* subtle outer glow ring */
+    const grd = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R * 1.15);
+    grd.addColorStop(0, 'rgba(56,189,248,0.0)');
+    grd.addColorStop(0.7, 'rgba(56,189,248,0.04)');
+    grd.addColorStop(1, 'rgba(56,189,248,0.0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, R * 1.15, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    /* compute screen positions */
+    const pos = NODES.map(n => sphToXY(n.lat, n.lon, rotY, 1));
+
+    /* draw lines (back-to-front) */
+    for (const [a, b] of LINES) {
+      const pa = pos[a], pb = pos[b];
+      if (!pa.visible || !pb.visible) continue;
+      const alpha = (Math.min(pa.z, pb.z) / R + 1) * 0.5;
+      ctx.beginPath();
+      ctx.moveTo(pa.sx, pa.sy);
+      ctx.lineTo(pb.sx, pb.sy);
+      ctx.strokeStyle = `rgba(56,189,248,${alpha * 0.12})`;
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+    }
+
+    /* draw nodes */
+    for (let i = 0; i < NODES.length; i++) {
+      const p = pos[i];
+      if (!p.visible) continue;
+      const depth = (p.z / R + 1) * 0.5;
+      const pulse = (Math.sin(t * 1.5 + NODES[i].pulse) + 1) * 0.5;
+      const alpha = depth * (0.25 + pulse * 0.35);
+      const radius = 1.2 + pulse * 0.8;
+
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(56,189,248,${alpha})`;
+      ctx.fill();
+
+      if (pulse > 0.72) {
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, radius * 3, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(56,189,248,${alpha * 0.2})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+
+    /* floating particles */
+    for (const pk of PARTICLES) {
+      pk.lon = (pk.lon + pk.speed * 0.12) % 360;
+      const p = sphToXY(pk.lat, pk.lon, rotY, 1.18);
+      if (!p.visible) continue;
+      const glow = (Math.sin(t * 0.9 + pk.phase) + 1) * 0.5;
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, pk.size * (0.6 + glow * 0.5), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(129,140,248,${0.12 + glow * 0.2})`;
+      ctx.fill();
+    }
+
+    /* faint equatorial ring */
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, R * 1.02, R * 0.26, 0, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(56,189,248,0.055)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+
+  /* ─── PARALLAX ─── */
+  document.addEventListener('mousemove', e => {
+    const dx = (e.clientX / window.innerWidth - 0.5) * 12;
+    const dy = (e.clientY / window.innerHeight - 0.5) * 8;
+    const heroRight = document.getElementById('hero-right');
+    heroRight.style.transform = `translate(${dx * 0.4}px, ${dy * 0.4}px)`;
+  });
+})();
+
+/* ─── INTERSECTION OBSERVER for service cards ─── */
+const cards = document.querySelectorAll('.service-card, .step');
+const io = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '0';
+      e.target.style.transform = 'translateY(18px)';
+      e.target.style.transition = `opacity 0.55s ease ${i * 0.07}s, transform 0.55s ease ${i * 0.07}s`;
+      requestAnimationFrame(() => {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      });
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+cards.forEach(c => { c.style.opacity = '0'; io.observe(c); });
+</script>
+</body>
+</html>
