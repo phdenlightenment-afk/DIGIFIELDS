@@ -176,29 +176,30 @@
 
   h1 {
     font-family: var(--font-display);
-    font-size: clamp(2.4rem, 4.2vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: #f0f4ff;
-    margin-bottom: 1.5rem;
+    font-size: clamp(1.85rem, 3vw, 3.05rem);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    color: #dde6f5;
+    margin-bottom: 1.25rem;
     opacity: 0;
     animation: slideUp 0.75s ease 0.45s forwards;
   }
   h1 em {
     font-style: normal;
-    background: linear-gradient(120deg, #38bdf8 0%, #818cf8 60%, #f472b6 100%);
+    font-weight: 800;
+    background: linear-gradient(105deg, #38bdf8 0%, #818cf8 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .hero-sub {
-    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    font-size: clamp(0.875rem, 1.05vw, 0.975rem);
     font-weight: 300;
-    line-height: 1.75;
+    line-height: 1.8;
     color: var(--muted);
-    max-width: 480px;
-    margin-bottom: 2.8rem;
+    max-width: 420px;
+    margin-bottom: 2.4rem;
     opacity: 0;
     animation: fadeIn 0.8s ease 0.7s forwards;
   }
@@ -560,7 +561,7 @@
   <div class="hero-left">
     <div class="eyebrow">Digital Marketing Group</div>
 
-    <h1>We Build Digital Systems That Drive <em>Growth</em></h1>
+    <h1>Digital Systems<br>Built to Drive <em>Growth</em></h1>
 
     <p class="hero-sub">
       High-converting websites, funnels, and marketing systems designed to scale your business — built with precision, backed by data.
@@ -670,7 +671,7 @@
 <section class="cta-band" id="contact">
   <h2>Ready to Scale Your Business?</h2>
   <p>Book a free 30-minute strategy call — no pressure, just clarity.</p>
-  <a href="mailto:hello@digifields.com" class="btn-primary" style="display:inline-flex;">
+  <a href="/cdn-cgi/l/email-protection#19717c757576597d707e707f707c757d6a377a7674" class="btn-primary" style="display:inline-flex;">
     Book a Free Call
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
@@ -687,159 +688,450 @@
   </ul>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── SCROLL NAV ─── */
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 30);
 });
 
-/* ─── GLOBE ─── */
+/* ══════════════════════════════════════════════
+   ENHANCED GLOBE — v2
+   Features:
+   · Continent dot-cloud landmasses
+   · Dense lat/lon grid lines
+   · Glowing city hotspots
+   · Animated arc beams between cities
+   · Pulsing data packets traveling arcs
+   · Multi-ring orbital halos (tilted)
+   · Atmospheric glow layers
+   · Stardust field behind globe
+   · Radial energy spikes on hotspots
+   · Depth-sorted rendering
+══════════════════════════════════════════════ */
 (function initGlobe() {
   const canvas = document.getElementById('globe-canvas');
   const ctx = canvas.getContext('2d');
-  let W, H, R, cx, cy, t = 0, raf;
+  let W, H, R, cx, cy, t = 0;
 
-  const NODES = [];
-  const LINES = [];
-  const PARTICLES = [];
+  /* ── Continent dot-cloud data (approx lat/lon clusters) ── */
+  const CONTINENT_POINTS = [
+    // North America
+    ...gen(35,55,-130,-60,160), ...gen(20,35,-120,-80,80),
+    // South America
+    ...gen(-10,10,-80,-40,80), ...gen(-40,-10,-75,-45,100),
+    // Europe
+    ...gen(40,60,-10,40,140), ...gen(35,50,-10,35,90),
+    // Africa
+    ...gen(0,30,-20,45,180), ...gen(-35,0,10,50,120),
+    // Asia
+    ...gen(30,60,40,140,260), ...gen(0,30,60,120,200),
+    // Australia
+    ...gen(-40,-20,115,155,90),
+    // Greenland / Iceland
+    ...gen(60,80,-55,-15,40),
+  ];
 
-  function resize() {
-    const container = document.getElementById('hero-right');
-    W = canvas.width = container.offsetWidth;
-    H = canvas.height = container.offsetHeight;
-    cx = W / 2;
-    cy = H / 2;
-    R = Math.min(W, H) * 0.36;
-    buildGlobe();
+  function gen(latMin, latMax, lonMin, lonMax, count) {
+    const pts = [];
+    for (let i = 0; i < count; i++) {
+      pts.push({
+        lat: latMin + Math.random() * (latMax - latMin),
+        lon: lonMin + Math.random() * (lonMax - lonMin),
+      });
+    }
+    return pts;
   }
 
-  function sphToXY(lat, lon, rotY, scale) {
+  /* ── Major city hotspots ── */
+  const CITIES = [
+    { name:'New York',    lat:40.7,  lon:-74.0  },
+    { name:'London',      lat:51.5,  lon:-0.1   },
+    { name:'Tokyo',       lat:35.7,  lon:139.7  },
+    { name:'Sydney',      lat:-33.9, lon:151.2  },
+    { name:'Dubai',       lat:25.2,  lon:55.3   },
+    { name:'São Paulo',   lat:-23.5, lon:-46.6  },
+    { name:'Singapore',   lat:1.3,   lon:103.8  },
+    { name:'Lagos',       lat:6.5,   lon:3.4    },
+    { name:'Toronto',     lat:43.7,  lon:-79.4  },
+    { name:'Mumbai',      lat:19.1,  lon:72.9   },
+    { name:'Berlin',      lat:52.5,  lon:13.4   },
+    { name:'Los Angeles', lat:34.1,  lon:-118.2 },
+  ];
+
+  /* ── Arc beams between cities ── */
+  const ARC_PAIRS = [
+    [0,1],[0,2],[1,4],[1,10],[2,6],[3,6],[4,6],
+    [0,8],[1,7],[5,0],[9,1],[11,0],[2,3],[6,9]
+  ];
+
+  /* ── Data packets flying along arcs ── */
+  const PACKETS = ARC_PAIRS.map((pair, i) => ({
+    pair,
+    progress: Math.random(),
+    speed: 0.0018 + Math.random() * 0.0022,
+    color: i % 3 === 0 ? [56,189,248] : i % 3 === 1 ? [129,140,248] : [244,114,182],
+  }));
+
+  /* ── Orbital ring definitions ── */
+  const RINGS = [
+    { tiltX: 0,    tiltZ: 0,   speed: 0.004,  phase: 0,       color: [56,189,248],   alpha: 0.13, width: 0.7  },
+    { tiltX: 0.55, tiltZ: 0.3, speed: -0.003, phase: 1.2,     color: [129,140,248],  alpha: 0.10, width: 0.6  },
+    { tiltX: 1.1,  tiltZ: 0.6, speed: 0.0025, phase: 2.4,     color: [244,114,182],  alpha: 0.08, width: 0.5  },
+    { tiltX: 0.28, tiltZ: 1.0, speed: -0.005, phase: 0.7,     color: [56,189,248],   alpha: 0.06, width: 0.4  },
+  ];
+
+  /* ── Stardust ── */
+  const STARS = Array.from({length:120}, () => ({
+    x: Math.random(), y: Math.random(),
+    r: 0.3 + Math.random() * 0.9,
+    phase: Math.random() * Math.PI * 2,
+    speed: 0.4 + Math.random() * 0.8,
+  }));
+
+  /* ── Floating debris particles ── */
+  const DEBRIS = Array.from({length:45}, () => ({
+    lat: (Math.random()-0.5)*160,
+    lon: Math.random()*360-180,
+    phase: Math.random()*Math.PI*2,
+    orbitSpeed: (0.4+Math.random()*0.6) * (Math.random()<0.5?1:-1),
+    scale: 1.05 + Math.random()*0.25,
+    size: 0.5+Math.random()*1.2,
+  }));
+
+  /* ─────────────── UTILS ─────────────── */
+  function resize() {
+    const c = document.getElementById('hero-right');
+    W = canvas.width  = c.offsetWidth;
+    H = canvas.height = c.offsetHeight;
+    cx = W / 2; cy = H / 2;
+    R  = Math.min(W, H) * 0.38;
+  }
+
+  function sph(lat, lon, rotY, scale=1) {
     const rlat = lat * Math.PI / 180;
     const rlon = (lon + rotY) * Math.PI / 180;
-    const x = R * Math.cos(rlat) * Math.sin(rlon);
-    const y = R * Math.sin(rlat);
-    const z = R * Math.cos(rlat) * Math.cos(rlon);
-    const perspective = 1200 / (1200 - z * 0.4);
+    const x = Math.cos(rlat) * Math.sin(rlon);
+    const y = Math.sin(rlat);
+    const z = Math.cos(rlat) * Math.cos(rlon);
+    const sr = R * scale;
+    const p  = 1400 / (1400 - z * sr * 0.35);
+    return { sx: cx + x*sr*p, sy: cy - y*sr*p, z, vis: z > -0.08 };
+  }
+
+  /* Great-circle interpolation */
+  function gcLerp(lat1,lon1,lat2,lon2,frac) {
+    const a1=lat1*Math.PI/180, o1=lon1*Math.PI/180;
+    const a2=lat2*Math.PI/180, o2=lon2*Math.PI/180;
+    const x1=Math.cos(a1)*Math.cos(o1), y1=Math.cos(a1)*Math.sin(o1), z1=Math.sin(a1);
+    const x2=Math.cos(a2)*Math.cos(o2), y2=Math.cos(a2)*Math.sin(o2), z2=Math.sin(a2);
+    const dot=x1*x2+y1*y2+z1*z2;
+    const omega=Math.acos(Math.min(1,Math.max(-1,dot)));
+    if (omega < 0.0001) return {lat:lat1,lon:lon1};
+    const s=Math.sin(omega);
+    const fa=Math.sin((1-frac)*omega)/s, fb=Math.sin(frac*omega)/s;
+    const xm=fa*x1+fb*x2, ym=fa*y1+fb*y2, zm=fa*z1+fb*z2;
     return {
-      sx: cx + x * perspective * scale,
-      sy: cy - y * perspective * scale,
-      z: z,
-      visible: z > -R * 0.1
+      lat: Math.atan2(zm, Math.sqrt(xm*xm+ym*ym))*180/Math.PI,
+      lon: Math.atan2(ym,xm)*180/Math.PI
     };
   }
 
-  function buildGlobe() {
-    NODES.length = 0;
-    LINES.length = 0;
-    PARTICLES.length = 0;
+  /* ─────────────── DRAW ─────────────── */
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.0028;
+    const rotY = t * (180 / Math.PI);
 
-    /* latitude/longitude grid nodes */
-    const pts = [];
-    for (let lat = -75; lat <= 75; lat += 25) {
-      for (let lon = -180; lon < 180; lon += 30) {
-        pts.push({ lat, lon, pulse: Math.random() * Math.PI * 2 });
+    /* ── 1. Stardust ── */
+    for (const s of STARS) {
+      const blink = 0.25 + 0.25 * Math.sin(t * s.speed + s.phase);
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(180,210,255,${blink})`;
+      ctx.fill();
+    }
+
+    /* ── 2. Atmosphere layers ── */
+    for (let layer = 3; layer >= 1; layer--) {
+      const spread = R * (1.02 + layer * 0.12);
+      const grd = ctx.createRadialGradient(cx, cy, R*0.8, cx, cy, spread);
+      const col = layer===1 ? '56,189,248' : layer===2 ? '59,130,246' : '129,140,248';
+      grd.addColorStop(0, `rgba(${col},0)`);
+      grd.addColorStop(0.55, `rgba(${col},${0.028*layer})`);
+      grd.addColorStop(1,   `rgba(${col},0)`);
+      ctx.beginPath(); ctx.arc(cx, cy, spread, 0, Math.PI*2);
+      ctx.fillStyle = grd; ctx.fill();
+    }
+
+    /* ── 3. Globe surface glow ── */
+    const surfGrd = ctx.createRadialGradient(cx-R*0.2, cy-R*0.2, R*0.1, cx, cy, R*1.0);
+    surfGrd.addColorStop(0,   'rgba(56,189,248,0.05)');
+    surfGrd.addColorStop(0.5, 'rgba(14,30,60,0.55)');
+    surfGrd.addColorStop(1,   'rgba(3,5,10,0.85)');
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+    ctx.fillStyle = surfGrd; ctx.fill();
+    ctx.restore();
+
+    /* ── 4. Lat/lon grid lines ── */
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+
+    // Latitude lines
+    for (let lat = -75; lat <= 75; lat += 15) {
+      const steps = 80;
+      ctx.beginPath();
+      let first = true;
+      for (let i = 0; i <= steps; i++) {
+        const lon = -180 + (360/steps)*i;
+        const p = sph(lat, lon, rotY);
+        if (!p.vis) { first = true; continue; }
+        first ? ctx.moveTo(p.sx, p.sy) : ctx.lineTo(p.sx, p.sy);
+        first = false;
+      }
+      const depthAlpha = (Math.sin(lat*Math.PI/180)+1)*0.5;
+      ctx.strokeStyle = `rgba(56,189,248,${0.04 + depthAlpha*0.05})`;
+      ctx.lineWidth = 0.4;
+      ctx.stroke();
+    }
+
+    // Longitude lines
+    for (let lon = -180; lon < 180; lon += 20) {
+      const steps = 60;
+      ctx.beginPath();
+      let first = true;
+      for (let i = 0; i <= steps; i++) {
+        const lat = -90 + (180/steps)*i;
+        const p = sph(lat, lon, rotY);
+        if (!p.vis) { first = true; continue; }
+        first ? ctx.moveTo(p.sx, p.sy) : ctx.lineTo(p.sx, p.sy);
+        first = false;
+      }
+      ctx.strokeStyle = `rgba(56,189,248,0.045)`;
+      ctx.lineWidth = 0.35;
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    /* ── 5. Continent dots ── */
+    for (const cp of CONTINENT_POINTS) {
+      const p = sph(cp.lat, cp.lon, rotY);
+      if (!p.vis) continue;
+      const depth = (p.z + 1) * 0.5;
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 0.9, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(56,189,248,${depth * 0.28})`;
+      ctx.fill();
+    }
+
+    /* ── 6. Arc beams (great-circle paths) ── */
+    for (let ai = 0; ai < ARC_PAIRS.length; ai++) {
+      const [a, b] = ARC_PAIRS[ai];
+      const cityA = CITIES[a], cityB = CITIES[b];
+      const steps = 60;
+      const pts = [];
+      for (let s = 0; s <= steps; s++) {
+        const gc = gcLerp(cityA.lat,cityA.lon, cityB.lat,cityB.lon, s/steps);
+        pts.push(sph(gc.lat, gc.lon, rotY, 1.012)); // slight lift above surface
+      }
+
+      // Draw arc line
+      ctx.beginPath();
+      let fst = true;
+      for (const p of pts) {
+        if (!p.vis) { fst=true; continue; }
+        fst ? ctx.moveTo(p.sx,p.sy) : ctx.lineTo(p.sx,p.sy);
+        fst = false;
+      }
+      const col = ai%3===0?'56,189,248': ai%3===1?'129,140,248':'244,114,182';
+      ctx.strokeStyle = `rgba(${col},0.18)`;
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+
+      // Glowing gradient arc overlay
+      const visiblePts = pts.filter(p=>p.vis);
+      if (visiblePts.length > 2) {
+        const mid = visiblePts[Math.floor(visiblePts.length/2)];
+        const start = visiblePts[0];
+        try {
+          const arcGrd = ctx.createLinearGradient(start.sx,start.sy,mid.sx,mid.sy);
+          arcGrd.addColorStop(0, `rgba(${col},0)`);
+          arcGrd.addColorStop(0.5,`rgba(${col},0.35)`);
+          arcGrd.addColorStop(1, `rgba(${col},0)`);
+          ctx.beginPath(); fst=true;
+          for (const p of pts) {
+            if (!p.vis){fst=true;continue;}
+            fst?ctx.moveTo(p.sx,p.sy):ctx.lineTo(p.sx,p.sy); fst=false;
+          }
+          ctx.strokeStyle = arcGrd;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        } catch(e){}
       }
     }
-    NODES.push(...pts);
 
-    /* arcs connecting nearby nodes */
-    for (let i = 0; i < pts.length; i++) {
-      for (let j = i + 1; j < pts.length; j++) {
-        const dlat = Math.abs(pts[i].lat - pts[j].lat);
-        const dlon = Math.abs(pts[i].lon - pts[j].lon);
-        if ((dlat <= 25 && dlon <= 30) && Math.random() > 0.45) {
-          LINES.push([i, j]);
+    /* ── 7. Data packets on arcs ── */
+    for (const pk of PACKETS) {
+      pk.progress = (pk.progress + pk.speed) % 1;
+      const [a, b] = pk.pair;
+      const gc = gcLerp(CITIES[a].lat,CITIES[a].lon, CITIES[b].lat,CITIES[b].lon, pk.progress);
+      const p = sph(gc.lat, gc.lon, rotY, 1.012);
+      if (!p.vis) continue;
+      const [r,g,bl] = pk.color;
+      const trail = 12;
+      for (let ti = 0; ti < trail; ti++) {
+        const tp = pk.progress - ti * 0.012;
+        if (tp < 0) continue;
+        const tgc = gcLerp(CITIES[a].lat,CITIES[a].lon, CITIES[b].lat,CITIES[b].lon, tp);
+        const tp2 = sph(tgc.lat, tgc.lon, rotY, 1.012);
+        if (!tp2.vis) continue;
+        const fadeAlpha = (1 - ti/trail) * 0.6;
+        ctx.beginPath();
+        ctx.arc(tp2.sx, tp2.sy, (1 - ti/trail)*2.2, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(${r},${g},${bl},${fadeAlpha})`;
+        ctx.fill();
+      }
+      // Bright head dot
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${pk.color[0]},${pk.color[1]},${pk.color[2]},0.95)`;
+      ctx.fill();
+      // Head halo
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 5, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${pk.color[0]},${pk.color[1]},${pk.color[2]},0.15)`;
+      ctx.fill();
+    }
+
+    /* ── 8. City hotspots ── */
+    for (let ci = 0; ci < CITIES.length; ci++) {
+      const city = CITIES[ci];
+      const p = sph(city.lat, city.lon, rotY);
+      if (!p.vis) continue;
+      const depth = (p.z + 1) * 0.5;
+      const pulse = (Math.sin(t * 1.8 + ci * 0.7) + 1) * 0.5;
+      const pulseSlow = (Math.sin(t * 0.6 + ci * 1.3) + 1) * 0.5;
+
+      // Outer glow ring (expanding)
+      const ringR = 6 + pulseSlow * 10;
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, ringR, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(56,189,248,${depth * (0.06 + pulseSlow*0.12)})`;
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+
+      // Mid ring
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 4 + pulse*2, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(129,140,248,${depth * 0.35})`;
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+
+      // Core dot
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 2.2, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${depth * (0.5 + pulse*0.4)})`;
+      ctx.fill();
+
+      // Energy spikes
+      if (pulse > 0.6) {
+        for (let sp = 0; sp < 4; sp++) {
+          const angle = (sp/4)*Math.PI*2 + t*0.5;
+          const len = (pulse-0.6)/0.4 * 9;
+          ctx.beginPath();
+          ctx.moveTo(p.sx + Math.cos(angle)*3, p.sy + Math.sin(angle)*3);
+          ctx.lineTo(p.sx + Math.cos(angle)*(3+len), p.sy + Math.sin(angle)*(3+len));
+          ctx.strokeStyle = `rgba(56,189,248,${depth * 0.4 * (pulse-0.6)/0.4})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
         }
       }
     }
 
-    /* floating particles */
-    for (let k = 0; k < 28; k++) {
-      PARTICLES.push({
-        lat: (Math.random() - 0.5) * 160,
-        lon: (Math.random()) * 360 - 180,
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.3 + Math.random() * 0.4,
-        size: 0.8 + Math.random() * 1.0
-      });
-    }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    t += 0.0025;
-    const rotY = t * (180 / Math.PI); // slow degrees rotation
-
-    /* subtle outer glow ring */
-    const grd = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R * 1.15);
-    grd.addColorStop(0, 'rgba(56,189,248,0.0)');
-    grd.addColorStop(0.7, 'rgba(56,189,248,0.04)');
-    grd.addColorStop(1, 'rgba(56,189,248,0.0)');
-    ctx.beginPath();
-    ctx.arc(cx, cy, R * 1.15, 0, Math.PI * 2);
-    ctx.fillStyle = grd;
-    ctx.fill();
-
-    /* compute screen positions */
-    const pos = NODES.map(n => sphToXY(n.lat, n.lon, rotY, 1));
-
-    /* draw lines (back-to-front) */
-    for (const [a, b] of LINES) {
-      const pa = pos[a], pb = pos[b];
-      if (!pa.visible || !pb.visible) continue;
-      const alpha = (Math.min(pa.z, pb.z) / R + 1) * 0.5;
+    /* ── 9. Floating debris particles ── */
+    for (const db of DEBRIS) {
+      db.lon = (db.lon + db.orbitSpeed * 0.09) % 360;
+      const p = sph(db.lat, db.lon, rotY, db.scale);
+      if (!p.vis) continue;
+      const glow = (Math.sin(t * 0.8 + db.phase) + 1) * 0.5;
+      const depth = (p.z + 1) * 0.5;
       ctx.beginPath();
-      ctx.moveTo(pa.sx, pa.sy);
-      ctx.lineTo(pb.sx, pb.sy);
-      ctx.strokeStyle = `rgba(56,189,248,${alpha * 0.12})`;
-      ctx.lineWidth = 0.6;
-      ctx.stroke();
-    }
-
-    /* draw nodes */
-    for (let i = 0; i < NODES.length; i++) {
-      const p = pos[i];
-      if (!p.visible) continue;
-      const depth = (p.z / R + 1) * 0.5;
-      const pulse = (Math.sin(t * 1.5 + NODES[i].pulse) + 1) * 0.5;
-      const alpha = depth * (0.25 + pulse * 0.35);
-      const radius = 1.2 + pulse * 0.8;
-
-      ctx.beginPath();
-      ctx.arc(p.sx, p.sy, radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(56,189,248,${alpha})`;
+      ctx.arc(p.sx, p.sy, db.size*(0.5+glow*0.6), 0, Math.PI*2);
+      ctx.fillStyle = `rgba(129,140,248,${depth*(0.1+glow*0.22)})`;
       ctx.fill();
+    }
 
-      if (pulse > 0.72) {
-        ctx.beginPath();
-        ctx.arc(p.sx, p.sy, radius * 3, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(56,189,248,${alpha * 0.2})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
+    /* ── 10. Orbital rings ── */
+    for (const ring of RINGS) {
+      const steps = 120;
+      const angle = t * ring.speed + ring.phase;
+      const [r,g,b] = ring.color;
+
+      ctx.beginPath();
+      let fst = true;
+      for (let i = 0; i <= steps; i++) {
+        const theta = (i / steps) * Math.PI * 2;
+        // Parametric tilted ellipse
+        const x0 = Math.cos(theta);
+        const y0 = Math.sin(theta) * Math.cos(ring.tiltX);
+        const z0 = Math.sin(theta) * Math.sin(ring.tiltX);
+        // Additional rotation around Z
+        const xr = x0*Math.cos(ring.tiltZ) - z0*Math.sin(ring.tiltZ);
+        const yr = y0;
+        const zr = x0*Math.sin(ring.tiltZ) + z0*Math.cos(ring.tiltZ);
+        // Rotate with globe
+        const ra = angle;
+        const xf = xr*Math.cos(ra) + zr*Math.sin(ra);
+        const zf = -xr*Math.sin(ra) + zr*Math.cos(ra);
+        const scale2 = R * 1.18;
+        const pr = 1400 / (1400 - zf*scale2*0.35);
+        const sx = cx + xf*scale2*pr;
+        const sy = cy - yr*scale2*pr;
+        // Depth-based alpha
+        const dAlpha = ((zf+1)*0.5) * ring.alpha;
+        if (fst) { ctx.moveTo(sx,sy); fst=false; }
+        else { ctx.lineTo(sx,sy); }
+      }
+      ctx.strokeStyle = `rgba(${r},${g},${b},${ring.alpha * 0.8})`;
+      ctx.lineWidth = ring.width;
+      ctx.stroke();
+
+      // Ring glow dot (brightest point)
+      const theta = t * ring.speed * 2 + ring.phase;
+      const x0 = Math.cos(theta);
+      const y0 = Math.sin(theta) * Math.cos(ring.tiltX);
+      const z0 = Math.sin(theta) * Math.sin(ring.tiltX);
+      const xr = x0*Math.cos(ring.tiltZ)-z0*Math.sin(ring.tiltZ);
+      const yr = y0;
+      const zr = x0*Math.sin(ring.tiltZ)+z0*Math.cos(ring.tiltZ);
+      const ra = angle;
+      const xf = xr*Math.cos(ra)+zr*Math.sin(ra);
+      const zf = -xr*Math.sin(ra)+zr*Math.cos(ra);
+      if (zf > 0) {
+        const scale2 = R*1.18;
+        const pr = 1400/(1400-zf*scale2*0.35);
+        const sx = cx+xf*scale2*pr, sy = cy-yr*scale2*pr;
+        ctx.beginPath(); ctx.arc(sx,sy,2.2,0,Math.PI*2);
+        ctx.fillStyle = `rgba(${r},${g},${b},0.85)`;
+        ctx.fill();
+        ctx.beginPath(); ctx.arc(sx,sy,5,0,Math.PI*2);
+        ctx.fillStyle = `rgba(${r},${g},${b},0.2)`;
+        ctx.fill();
       }
     }
 
-    /* floating particles */
-    for (const pk of PARTICLES) {
-      pk.lon = (pk.lon + pk.speed * 0.12) % 360;
-      const p = sphToXY(pk.lat, pk.lon, rotY, 1.18);
-      if (!p.visible) continue;
-      const glow = (Math.sin(t * 0.9 + pk.phase) + 1) * 0.5;
-      ctx.beginPath();
-      ctx.arc(p.sx, p.sy, pk.size * (0.6 + glow * 0.5), 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(129,140,248,${0.12 + glow * 0.2})`;
-      ctx.fill();
-    }
+    /* ── 11. Globe edge highlight ── */
+    const edgeGrd = ctx.createRadialGradient(cx, cy, R*0.82, cx, cy, R*1.01);
+    edgeGrd.addColorStop(0,   'rgba(56,189,248,0)');
+    edgeGrd.addColorStop(0.7, 'rgba(56,189,248,0.06)');
+    edgeGrd.addColorStop(1,   'rgba(56,189,248,0.14)');
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R*1.01,0,Math.PI*2);
+    ctx.strokeStyle = edgeGrd; ctx.lineWidth = 2; ctx.stroke();
+    ctx.restore();
 
-    /* faint equatorial ring */
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, R * 1.02, R * 0.26, 0, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(56,189,248,0.055)';
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
-
-    raf = requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
   }
 
   resize();
@@ -848,10 +1140,10 @@ window.addEventListener('scroll', () => {
 
   /* ─── PARALLAX ─── */
   document.addEventListener('mousemove', e => {
-    const dx = (e.clientX / window.innerWidth - 0.5) * 12;
-    const dy = (e.clientY / window.innerHeight - 0.5) * 8;
-    const heroRight = document.getElementById('hero-right');
-    heroRight.style.transform = `translate(${dx * 0.4}px, ${dy * 0.4}px)`;
+    const dx = (e.clientX / window.innerWidth  - 0.5) * 14;
+    const dy = (e.clientY / window.innerHeight - 0.5) * 10;
+    document.getElementById('hero-right').style.transform =
+      `translate(${dx*0.4}px, ${dy*0.4}px)`;
   });
 })();
 
@@ -867,11 +1159,4 @@ const io = new IntersectionObserver(entries => {
         e.target.style.opacity = '1';
         e.target.style.transform = 'translateY(0)';
       });
-      io.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.1 });
-cards.forEach(c => { c.style.opacity = '0'; io.observe(c); });
-</script>
-</body>
-</html>
+    
