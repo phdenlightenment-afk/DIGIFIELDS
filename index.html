@@ -79,42 +79,47 @@
   }
 
   .nav-links {
-    display: flex; align-items: center; gap: 2.4rem;
+    display: flex; align-items: center; gap: 2.8rem;
     list-style: none;
   }
   .nav-links a {
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 0.925rem;
     font-weight: 400;
-    color: var(--muted);
+    color: rgba(160,180,210,0.75);
     text-decoration: none;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     position: relative;
-    transition: color 0.25s;
+    transition: color 0.2s;
   }
   .nav-links a::after {
     content: '';
-    position: absolute; bottom: -3px; left: 0; right: 100%;
+    position: absolute; bottom: -4px; left: 0; right: 100%;
     height: 1px;
     background: var(--cyan);
-    transition: right 0.3s ease;
+    transition: right 0.28s ease;
+    opacity: 0.7;
   }
-  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover { color: #e8edf5; }
   .nav-links a:hover::after { right: 0; }
 
   .nav-cta {
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important;
     font-weight: 500 !important;
-    color: var(--cyan) !important;
-    border: 1px solid rgba(56,189,248,0.3) !important;
-    padding: 6px 18px;
-    border-radius: 4px;
-    transition: background 0.25s, box-shadow 0.25s !important;
+    color: #e8edf5 !important;
+    background: rgba(56,189,248,0.07) !important;
+    border: 1px solid rgba(56,189,248,0.38) !important;
+    padding: 8px 20px !important;
+    border-radius: 5px;
+    letter-spacing: 0.01em;
+    box-shadow: 0 0 18px rgba(56,189,248,0.1), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+    transition: background 0.22s, box-shadow 0.22s, border-color 0.22s, color 0.22s !important;
   }
   .nav-cta:hover {
-    background: rgba(56,189,248,0.08) !important;
-    box-shadow: 0 0 16px rgba(56,189,248,0.2) !important;
-    color: var(--cyan) !important;
+    background: rgba(56,189,248,0.13) !important;
+    border-color: rgba(56,189,248,0.6) !important;
+    box-shadow: 0 0 28px rgba(56,189,248,0.22), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+    color: #fff !important;
   }
   .nav-cta::after { display: none !important; }
 
@@ -153,25 +158,29 @@
   /* ─── HERO LEFT ─── */
   .hero-left {
     position: relative; z-index: 2;
-    padding: 100px 0;
-    max-width: 600px;
+    padding: 88px 0 88px;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
-    font-size: 0.72rem;
+    font-size: 0.69rem;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--cyan);
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.4rem;
     opacity: 0;
     animation: slideUp 0.7s ease 0.3s forwards;
   }
   .eyebrow::before {
     content: '';
-    display: block; width: 28px; height: 1px;
+    display: block; width: 24px; height: 1px;
     background: var(--cyan);
+    opacity: 0.7;
   }
 
   h1 {
@@ -264,8 +273,8 @@
   /* ─── STATS ROW ─── */
   .hero-stats {
     display: flex; gap: 2.5rem;
-    margin-top: 4rem;
-    padding-top: 2.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
     border-top: 1px solid rgba(120,140,168,0.1);
     opacity: 0;
     animation: fadeIn 0.9s ease 1.2s forwards;
@@ -326,47 +335,71 @@
   .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
+    gap: 1px;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.12);
+    border-radius: 12px;
     overflow: hidden;
   }
   .service-card {
-    padding: 2.5rem;
-    background: rgba(6,12,20,0.6);
+    padding: 2.6rem 2.4rem;
+    background: rgba(5,10,18,0.82);
     position: relative;
-    transition: background 0.3s;
+    transition: background 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
     cursor: default;
+    border: 1px solid transparent;
   }
   .service-card::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
-    opacity: 0; transition: opacity 0.4s;
+    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.5), transparent);
+    opacity: 0; transition: opacity 0.35s;
   }
-  .service-card:hover { background: rgba(56,189,248,0.03); }
+  .service-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px rgba(56,189,248,0);
+    transition: box-shadow 0.28s ease;
+    pointer-events: none;
+  }
+  .service-card:hover {
+    background: rgba(56,189,248,0.04);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  }
   .service-card:hover::before { opacity: 1; }
+  .service-card:hover::after  { box-shadow: inset 0 0 0 1px rgba(56,189,248,0.18); }
 
   .service-icon {
-    width: 40px; height: 40px;
+    width: 42px; height: 42px;
     display: flex; align-items: center; justify-content: center;
-    background: var(--cyan-dim);
-    border-radius: 8px;
-    margin-bottom: 1.4rem;
-    font-size: 1.1rem;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.14);
+    border-radius: 9px;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    transition: background 0.28s, border-color 0.28s, box-shadow 0.28s;
+  }
+  .service-card:hover .service-icon {
+    background: rgba(56,189,248,0.14);
+    border-color: rgba(56,189,248,0.3);
+    box-shadow: 0 0 14px rgba(56,189,248,0.12);
   }
   .service-title {
     font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 0.7rem;
-    letter-spacing: -0.01em;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: #d8e4f2;
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.015em;
+    transition: color 0.22s;
   }
+  .service-card:hover .service-title { color: #edf3fc; }
   .service-desc {
-    font-size: 0.83rem;
-    line-height: 1.7;
-    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.72;
+    color: rgba(122,143,168,0.85);
   }
 
   /* ─── PROCESS ─── */
@@ -874,13 +907,12 @@ window.addEventListener('scroll', () => {
     ctx.fillStyle = surfGrd; ctx.fill();
     ctx.restore();
 
-    /* ── 4. Lat/lon grid lines ── */
+    /* ── 4. Lat/lon grid lines — tighter, more structured ── */
     ctx.save();
-    ctx.globalAlpha = 0.5;
 
-    // Latitude lines
-    for (let lat = -75; lat <= 75; lat += 15) {
-      const steps = 80;
+    // Latitude lines — every 12°, more rings for structure
+    for (let lat = -72; lat <= 72; lat += 12) {
+      const steps = 100;
       ctx.beginPath();
       let first = true;
       for (let i = 0; i <= steps; i++) {
@@ -891,14 +923,16 @@ window.addEventListener('scroll', () => {
         first = false;
       }
       const depthAlpha = (Math.sin(lat*Math.PI/180)+1)*0.5;
-      ctx.strokeStyle = `rgba(56,189,248,${0.04 + depthAlpha*0.05})`;
-      ctx.lineWidth = 0.4;
+      // Equator slightly brighter
+      const isEquator = lat === 0;
+      ctx.strokeStyle = `rgba(56,189,248,${isEquator ? 0.11 : 0.038 + depthAlpha*0.042})`;
+      ctx.lineWidth = isEquator ? 0.55 : 0.35;
       ctx.stroke();
     }
 
-    // Longitude lines
-    for (let lon = -180; lon < 180; lon += 20) {
-      const steps = 60;
+    // Longitude lines — every 15° for a full meridian grid
+    for (let lon = -180; lon < 180; lon += 15) {
+      const steps = 80;
       ctx.beginPath();
       let first = true;
       for (let i = 0; i <= steps; i++) {
@@ -908,20 +942,23 @@ window.addEventListener('scroll', () => {
         first ? ctx.moveTo(p.sx, p.sy) : ctx.lineTo(p.sx, p.sy);
         first = false;
       }
-      ctx.strokeStyle = `rgba(56,189,248,0.045)`;
-      ctx.lineWidth = 0.35;
+      // Prime meridian slightly brighter
+      const isPrime = lon === 0;
+      ctx.strokeStyle = `rgba(56,189,248,${isPrime ? 0.09 : 0.036})`;
+      ctx.lineWidth = isPrime ? 0.5 : 0.3;
       ctx.stroke();
     }
     ctx.restore();
 
-    /* ── 5. Continent dots ── */
+    /* ── 5. Continent dots — size varies with depth ── */
     for (const cp of CONTINENT_POINTS) {
       const p = sph(cp.lat, cp.lon, rotY);
       if (!p.vis) continue;
       const depth = (p.z + 1) * 0.5;
+      const r = 0.7 + depth * 0.55;
       ctx.beginPath();
-      ctx.arc(p.sx, p.sy, 0.9, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(56,189,248,${depth * 0.28})`;
+      ctx.arc(p.sx, p.sy, r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(56,189,248,${depth * 0.22})`;
       ctx.fill();
     }
 
@@ -1004,49 +1041,41 @@ window.addEventListener('scroll', () => {
       ctx.fill();
     }
 
-    /* ── 8. City hotspots ── */
+    /* ── 8. City hotspots — refined, structured ── */
     for (let ci = 0; ci < CITIES.length; ci++) {
       const city = CITIES[ci];
       const p = sph(city.lat, city.lon, rotY);
       if (!p.vis) continue;
       const depth = (p.z + 1) * 0.5;
-      const pulse = (Math.sin(t * 1.8 + ci * 0.7) + 1) * 0.5;
-      const pulseSlow = (Math.sin(t * 0.6 + ci * 1.3) + 1) * 0.5;
+      const pulse = (Math.sin(t * 1.4 + ci * 0.85) + 1) * 0.5;
+      const pulseSlow = (Math.sin(t * 0.5 + ci * 1.1) + 1) * 0.5;
 
-      // Outer glow ring (expanding)
-      const ringR = 6 + pulseSlow * 10;
+      // Soft outer halo — only faint, depth-driven
+      const haloR = 7 + pulseSlow * 7;
       ctx.beginPath();
-      ctx.arc(p.sx, p.sy, ringR, 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(56,189,248,${depth * (0.06 + pulseSlow*0.12)})`;
-      ctx.lineWidth = 0.8;
-      ctx.stroke();
-
-      // Mid ring
-      ctx.beginPath();
-      ctx.arc(p.sx, p.sy, 4 + pulse*2, 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(129,140,248,${depth * 0.35})`;
+      ctx.arc(p.sx, p.sy, haloR, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(56,189,248,${depth * (0.05 + pulseSlow * 0.08)})`;
       ctx.lineWidth = 0.6;
       ctx.stroke();
 
-      // Core dot
+      // Crisp inner ring — consistent size, clean
       ctx.beginPath();
-      ctx.arc(p.sx, p.sy, 2.2, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(255,255,255,${depth * (0.5 + pulse*0.4)})`;
+      ctx.arc(p.sx, p.sy, 3.8, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(56,189,248,${depth * (0.22 + pulse * 0.18)})`;
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+
+      // Core dot — sharp and precise
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 1.8, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(200,230,255,${depth * (0.55 + pulse * 0.35)})`;
       ctx.fill();
 
-      // Energy spikes
-      if (pulse > 0.6) {
-        for (let sp = 0; sp < 4; sp++) {
-          const angle = (sp/4)*Math.PI*2 + t*0.5;
-          const len = (pulse-0.6)/0.4 * 9;
-          ctx.beginPath();
-          ctx.moveTo(p.sx + Math.cos(angle)*3, p.sy + Math.sin(angle)*3);
-          ctx.lineTo(p.sx + Math.cos(angle)*(3+len), p.sy + Math.sin(angle)*(3+len));
-          ctx.strokeStyle = `rgba(56,189,248,${depth * 0.4 * (pulse-0.6)/0.4})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
+      // Micro glow fill behind core
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 4.5, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(56,189,248,${depth * 0.04})`;
+      ctx.fill();
     }
 
     /* ── 9. Floating debris particles ── */
