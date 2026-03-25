@@ -785,14 +785,46 @@ window.addEventListener('scroll', () => {
   }
 
   /* ── static data ── */
+  /* Dense, shaped continent point clouds — sub-regions for accuracy */
   const LAND = [].concat(
-    randPts(35,55,-130,-60,160), randPts(20,35,-120,-80,80),   // N America
-    randPts(-10,10,-80,-40,80),  randPts(-40,-10,-75,-45,100), // S America
-    randPts(40,60,-10,40,140),   randPts(35,50,-10,35,90),     // Europe
-    randPts(0,30,-20,45,180),    randPts(-35,0,10,50,120),     // Africa
-    randPts(30,60,40,140,260),   randPts(0,30,60,120,200),     // Asia
-    randPts(-40,-20,115,155,90),                               // Australia
-    randPts(60,80,-55,-15,40)                                  // Greenland
+    // ── North America ──
+    randPts(48,72,-140,-52,320),   // Canada
+    randPts(25,48,-125,-65,380),   // USA
+    randPts(15,30,-118,-85,160),   // Mexico / Central Am
+    randPts(5,20,-90,-70,80),      // Central America
+    // ── South America ──
+    randPts(-5,12,-80,-50,200),    // Northern SA
+    randPts(-25,-5,-70,-35,280),   // Brazil
+    randPts(-55,-25,-75,-50,200),  // Southern SA / Argentina
+    // ── Europe ──
+    randPts(36,48,-9,30,300),      // Southern/Central Europe
+    randPts(48,60,-5,30,260),      // Northern/Eastern Europe
+    randPts(55,70,5,30,140),       // Scandinavia
+    randPts(60,72,20,55,100),      // NE Europe / Finland
+    // ── Africa ──
+    randPts(15,38,-17,40,400),     // North Africa
+    randPts(-5,15,-18,42,320),     // West/Central Africa
+    randPts(-35,-5,10,52,360),     // East/South Africa
+    randPts(-35,-20,14,30,120),    // Southern Africa
+    // ── Asia ──
+    randPts(30,55,40,75,200),      // Middle East / Central Asia
+    randPts(20,55,75,135,500),     // South/East Asia (main)
+    randPts(55,72,55,140,280),     // Siberia West
+    randPts(55,72,140,180,120),    // Siberia East
+    randPts(0,25,95,125,200),      // SE Asia peninsula
+    randPts(-10,10,95,145,120),    // Indonesia/Malaysia
+    randPts(30,40,130,145,80),     // Japan / Korean peninsula
+    // ── Australia ──
+    randPts(-38,-22,114,154,320),  // Australia main
+    randPts(-22,-10,130,148,100),  // Northern Territory
+    // ── Greenland ──
+    randPts(60,84,-55,-17,200),
+    // ── UK / Ireland ──
+    randPts(50,59,-8,2,60),
+    // ── Madagascar ──
+    randPts(-26,-12,43,50,50),
+    // ── New Zealand ──
+    randPts(-47,-34,166,178,40)
   );
 
   const CITIES = [
@@ -877,14 +909,6 @@ window.addEventListener('scroll', () => {
       ctx.fillStyle=grd; ctx.fill();
     }
 
-    /* 3 — globe body */
-    var sg = ctx.createRadialGradient(cx-R*0.2,cy-R*0.2,R*0.1,cx,cy,R);
-    sg.addColorStop(0,  'rgba(56,189,248,0.05)');
-    sg.addColorStop(0.5,'rgba(14,30,60,0.55)');
-    sg.addColorStop(1,  'rgba(3,5,10,0.88)');
-    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2);
-    ctx.fillStyle=sg; ctx.fill(); ctx.restore();
-
     /* 4 — lat/lon grid */
     var lat, lon, i, p, first;
     // latitude rings
@@ -913,13 +937,17 @@ window.addEventListener('scroll', () => {
       ctx.stroke();
     }
 
-    /* 5 — land dots */
+    /* 5 — land dots (two-pass: glow halo + crisp core) */
     for (var li=0; li<LAND.length; li++) {
       p = sph(LAND[li].lat, LAND[li].lon, rotY, 1);
       if (!p.vis) continue;
       var depth = (p.z+1)*0.5;
-      ctx.beginPath(); ctx.arc(p.sx,p.sy, 0.7+depth*0.5, 0,Math.PI*2);
-      ctx.fillStyle='rgba(56,189,248,'+(depth*0.22)+')'; ctx.fill();
+      // pass 1: soft glow halo
+      ctx.beginPath(); ctx.arc(p.sx,p.sy, 2.2+depth*1.2, 0,Math.PI*2);
+      ctx.fillStyle='rgba(56,189,248,'+(depth*0.055)+')'; ctx.fill();
+      // pass 2: crisp bright core
+      ctx.beginPath(); ctx.arc(p.sx,p.sy, 0.9+depth*0.7, 0,Math.PI*2);
+      ctx.fillStyle='rgba(100,210,255,'+(0.28+depth*0.38)+')'; ctx.fill();
     }
 
     /* 6 — arc beams */
