@@ -312,6 +312,166 @@
     position: absolute; inset: 0;
   }
 
+  /* ─── WORK SECTION ─── */
+  .work-section {
+    position: relative; z-index: 2;
+    padding: 100px 5vw;
+    border-top: 1px solid var(--border);
+  }
+  .work-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap;
+  }
+  .work-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    max-width: 400px;
+  }
+  .work-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 340px;
+    text-align: right;
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+    background: rgba(56,189,248,0.07);
+    border: 1px solid rgba(56,189,248,0.1);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .work-card {
+    background: rgba(5,10,18,0.75);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+    display: flex; flex-direction: column;
+  }
+  .work-card:hover { background: rgba(56,189,248,0.04); }
+
+  /* Top accent line on hover */
+  .work-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.6), transparent);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .work-card:hover::before { opacity: 1; }
+
+  .work-card-inner {
+    padding: 2.6rem 2.6rem 2rem;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+
+  /* Preview mockup area */
+  .work-preview {
+    position: relative;
+    height: 200px;
+    background: rgba(8,14,26,0.9);
+    border-bottom: 1px solid rgba(56,189,248,0.07);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .work-preview-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center top;
+    opacity: 0.18;
+    transition: opacity 0.4s, transform 0.6s;
+    transform: scale(1.04);
+  }
+  .work-card:hover .work-preview-bg {
+    opacity: 0.32;
+    transform: scale(1.0);
+  }
+  .work-preview-label {
+    position: relative; z-index: 1;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: rgba(200,220,255,0.55);
+    text-align: center;
+    transition: color 0.3s;
+  }
+  .work-card:hover .work-preview-label { color: rgba(200,220,255,0.8); }
+
+  /* Tags */
+  .work-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 1.1rem;
+  }
+  .work-tag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.18);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .work-client {
+    font-size: 0.72rem;
+    color: rgba(120,143,168,0.6);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .work-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #d4e0f0;
+    margin-bottom: 0.65rem;
+    transition: color 0.25s;
+  }
+  .work-card:hover .work-name { color: #edf3fc; }
+  .work-desc {
+    font-size: 0.81rem;
+    line-height: 1.75;
+    color: rgba(110,130,158,0.85);
+    flex: 1;
+    margin-bottom: 1.4rem;
+  }
+  .work-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--cyan);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+    transition: opacity 0.22s, gap 0.22s;
+    margin-top: auto;
+  }
+  .work-link:hover { opacity: 1; gap: 11px; }
+  .work-link svg { transition: transform 0.22s; }
+  .work-link:hover svg { transform: translateX(3px); }
+
+  /* Placeholder card */
+  .work-card.placeholder .work-preview { background: rgba(8,14,26,0.5); }
+  .work-card.placeholder .work-preview-label {
+    font-size: 1rem;
+    color: rgba(120,143,168,0.35);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 700px) {
+    .work-grid { grid-template-columns: 1fr; }
+    .work-header { flex-direction: column; }
+    .work-sub { text-align: left; }
+  }
+
   /* ─── SERVICES STRIP ─── */
   .services-strip {
     position: relative; z-index: 2;
@@ -645,6 +805,98 @@
 
   <div class="hero-right" id="hero-right">
     <canvas id="globe-canvas"></canvas>
+  </div>
+</section>
+
+<!-- ════ WORK ════ -->
+<section class="work-section" id="work">
+  <div class="work-header">
+    <h2 class="work-title">Selected Work</h2>
+    <p class="work-sub">A sample of brands we've designed, built, and scaled — each one a system built to convert.</p>
+  </div>
+  <div class="work-grid">
+
+    <!-- FlavorWav -->
+    <div class="work-card">
+      <div class="work-preview">
+        <div class="work-preview-bg" style="background-image: url('https://phdenlightenment-afk.github.io/Flavorwav/FLAVORWAVLOGOOFFICIAL.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+        <span class="work-preview-label">FlavorWav</span>
+      </div>
+      <div class="work-card-inner">
+        <div class="work-tags">
+          <span class="work-tag">Web Design</span>
+          <span class="work-tag">E-Commerce</span>
+          <span class="work-tag">Brand</span>
+        </div>
+        <div class="work-client">Wellness · CPG</div>
+        <div class="work-name">FlavorWav — Shop</div>
+        <p class="work-desc">Full e-commerce build for a premium wellness brand selling vitamin-infused straws. Product pages, cart flow, TikTok-ready content pages, and a high-conversion shop experience.</p>
+        <a class="work-link" href="https://phdenlightenment-afk.github.io/Flavorwav/shop.html" target="_blank" rel="noopener">
+          View Site
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H5M11 2v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- ArableONE -->
+    <div class="work-card">
+      <div class="work-preview">
+        <div class="work-preview-bg" style="background-image: url('https://phdenlightenment-afk.github.io/ARABLEONE/TREATEDPIVOT.jpg');"></div>
+        <span class="work-preview-label">ArableONE</span>
+      </div>
+      <div class="work-card-inner">
+        <div class="work-tags">
+          <span class="work-tag">Web Design</span>
+          <span class="work-tag">B2B</span>
+          <span class="work-tag">Lead Generation</span>
+        </div>
+        <div class="work-client">AgTech · B2B</div>
+        <div class="work-name">ArableONE™ — Soil Technology</div>
+        <p class="work-desc">Marketing site for a regenerative soil technology company. Built to convert large-scale agricultural operators and municipalities — field results, product education, and B2B quote funnel.</p>
+        <a class="work-link" href="https://phdenlightenment-afk.github.io/ARABLEONE/" target="_blank" rel="noopener">
+          View Site
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H5M11 2v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Howard W. French -->
+    <div class="work-card">
+      <div class="work-preview">
+        <div class="work-preview-bg" style="background-image: url('https://www.howardwfrench.com/HWF_NEW_HERO.jpg');"></div>
+        <span class="work-preview-label">Howard W. French</span>
+      </div>
+      <div class="work-card-inner">
+        <div class="work-tags">
+          <span class="work-tag">Web Design</span>
+          <span class="work-tag">Personal Brand</span>
+          <span class="work-tag">Author</span>
+        </div>
+        <div class="work-client">Media · Publishing</div>
+        <div class="work-name">HowardWFrench.com</div>
+        <p class="work-desc">Personal brand site for Howard W. French — former NYT senior writer, author of five acclaimed books on Africa, Asia, and the African diaspora. Built to establish authority and drive book sales.</p>
+        <a class="work-link" href="https://www.howardwfrench.com" target="_blank" rel="noopener">
+          View Site
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H5M11 2v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Placeholder — Brother's site -->
+    <div class="work-card placeholder">
+      <div class="work-preview">
+        <span class="work-preview-label">Coming Soon</span>
+      </div>
+      <div class="work-card-inner">
+        <div class="work-tags">
+          <span class="work-tag">Web Design</span>
+        </div>
+        <div class="work-client">TBD</div>
+        <div class="work-name">Project Coming Soon</div>
+        <p class="work-desc">Another case study being added shortly. Drop the URL and we'll have this card live in minutes.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
